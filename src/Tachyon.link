@@ -1,0 +1,71 @@
+INPUT(
+../torokernel/builder/jump64.o
+prt0.o
+Tachyon.o
+../torokernel/rtl/system.o
+../torokernel/rtl/Kernel.o
+../torokernel/rtl/Process.o
+../torokernel/rtl/Memory.o
+../torokernel/rtl/Debug.o
+../torokernel/rtl/Arch.o
+../torokernel/rtl/Filesystem.o
+../torokernel/rtl/drivers/Pci.o
+../torokernel/rtl/drivers/VirtIOBlk.o
+../torokernel/rtl/drivers/Fat.o
+../torokernel/rtl/drivers/Console.o
+../torokernel/rtl/drivers/VirtIONet.o
+../torokernel/rtl/Network.o
+../torokernel/rtl/SysUtils.o
+../torokernel/rtl/lnfodwrfToro.o
+)
+OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(start64)
+KERNEL_VMA = 0x440000;
+SECTIONS
+{
+    . = KERNEL_VMA;
+
+    .text : AT(ADDR(.text) - KERNEL_VMA)
+    {
+        _code = .;
+        *(.text)
+        *(.rodata*)
+        . = ALIGN(4096);
+    }
+
+   .data : AT(ADDR(.data) - KERNEL_VMA)
+   {
+        _data = .;
+        *(.data)
+        . = ALIGN(4096);
+   }
+
+   .ehframe : AT(ADDR(.ehframe) - KERNEL_VMA)
+   {
+       _ehframe = .;
+       *(.ehframe)
+        . = ALIGN(4096);
+   }
+
+   .bss : AT(ADDR(.bss) - KERNEL_VMA)
+   {
+       _bss = .;
+       *(.bss)
+
+       /*
+        * You usually need to include generated COMMON symbols
+        * under kernel BSS section or use gcc's -fno-common
+        */
+
+        *(COMMON)
+       . = ALIGN(4096);
+   }
+
+   _end = .;
+
+   /DISCARD/ :
+   {
+        *(.comment*)
+   }
+}
+
