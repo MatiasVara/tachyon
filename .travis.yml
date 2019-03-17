@@ -49,7 +49,9 @@ script:
   - cp ./src/Tachyon.sh .
   - cp ./src/toro-kvm-network.xml .
   - cp ./src/qemu-ifup .
-  - tar -czvf Tachyon.tar.gz Tachyon.bin install.sh Tachyon.sh toro-kvm-network.xml qemu-ifup
+  - mkdir TachyonFiles
+  - cp ./src/TachyonFiles/index.html ./TachyonFiles/
+  - tar -czvf Tachyon.tar.gz Tachyon.bin install.sh Tachyon.sh toro-kvm-network.xml qemu-ifup ./TachyonFiles/index.html
  
 notifications:
   email:
