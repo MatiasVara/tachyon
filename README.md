@@ -13,6 +13,18 @@ Tachyon is a simple webserver that allows access to files by using the http prot
 To develop, just run setup.sh and start to play with src/Tachyon.pas
 
 ## How to try it
-To get Tachyon, see the release section.
-rmmod: ERROR: Module kvm is in use by: kvm_intel
-virsh net-create toro-kvm-network.xml
+To try Tachyon, first get the latest release from https://github.com/torokernel/tachyon/releases. Then, un tar it and run `install.sh`. The script installs Qemu-KVM among other tools. If everything has been installed correctly, you will get the message:
+
+`rmmod: ERROR: Module kvm is in use by: kvm intel`
+
+Now you have to create a bridge by doing: 
+
+`virsh net-create toro-kvm-network.xml`
+
+We are almost there. You have to invoke `Tachyon` by specifying first the IP of the webserver and second the directory used to serve:
+ 
+`./Tachyon.sh 192.100.200.100 ./TachyonFiles`
+
+You can check that the server is up and running by pinging it. Also, you can get the `index.html`  by doing:
+
+`curl http://192.100.200.100/index.html` 
