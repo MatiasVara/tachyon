@@ -35,13 +35,10 @@ uses
   Arch in '..\torokernel\rtl\Arch.pas',
   Filesystem in '..\torokernel\rtl\Filesystem.pas',
   Pci in '..\torokernel\rtl\drivers\Pci.pas',
-  // Ide in '..\torokernel\rtl\drivers\IdeDisk.pas',
   VirtIOBlk in '..\torokernel\rtl\drivers\VirtIOBlk.pas',
-  // Ext2 in '..\torokernel\rtl\drivers\Ext2.pas',
   Fat in '..\torokernel\rtl\drivers\Fat.pas',
   Console in '..\torokernel\rtl\drivers\Console.pas',
   Network in '..\torokernel\rtl\Network.pas',
-  //E1000 in '..\torokernel\rtl\drivers\E1000.pas';
   VirtIONet in '..\torokernel\rtl\drivers\VirtIONet.pas';
 
 const
@@ -374,15 +371,12 @@ begin
   end;
 
   DedicateBlockDriver('virtioblk', 0);
-
-  //SysMount('ext2','ATA0',5);
   SysMount('fat', 'virtioblk', 0);
 
   HttpServer := SysSocket(SOCKET_STREAM);
   HttpServer.Sourceport := 80;
   HttpServer.Blocking := True;
   SysSocketListen(HttpServer, 50);
-  WriteConsoleF('\t /VWebServer/n: listening ...\n',[]);
 
   while true do
   begin
@@ -394,5 +388,4 @@ begin
     HttpClient.UserDefined := rq;
     tid := BeginThread(nil, 4096*2, ProcessesSocket, HttpClient, 0, tid);
   end;
-
 end.
